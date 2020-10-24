@@ -18,3 +18,6 @@ Syntax for changelog:
 --- 0.1.0 - This project basic setup.
     Basic setup on this project level. Prototype ans setup scripts untouched.
 
+--- 0.2.0 - init_py_project.sh repaired.
+    Init_py_project.sh repaired.
+
