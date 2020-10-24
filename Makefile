@@ -8,3 +8,6 @@ tests_bash:  	## Run bash scripts tests
 
 commit:  	## Test and commit changes to git and push on github
 	bash ./.devbin/bigcommit.sh
+
+deploy:		## Deploys script and its library to the system
+	bash ./.devbin/deploy.sh
