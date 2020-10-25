@@ -7,6 +7,9 @@ APP			?= app.py
 help:  		## This help dialog.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
+devinstall:	## Install development tools
+	cat dev_requirements.apt | xargs sudo apt install -y
+
 bootstrap:  	## Bootstrap project or fix existing copy
 	sudo apt update
 	cat requirements.apt | xargs sudo apt install -y
@@ -19,7 +22,7 @@ upgradevenv:  	## Upgrade python3 virtualenv
 run:  		## Start development version of application
 	$(PYTHON_BIN) $(APP)
 
-tests_bash:  	## Run bash scripts tests
+bashtests:  	## Run bash scripts tests
 	bash ./.devbin/shtests.sh
 
 tests:  	## Run applications tests

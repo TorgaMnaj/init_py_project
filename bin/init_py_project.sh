@@ -40,7 +40,15 @@ mkdir "$TITLE"
 cd "$TITLE" || exit 1
 cp -rf $PROTOTYP* .
 cp -rf $PROTOTYP. .
-cp -rf app ./"$TITLE" && rm -rf app
+mkdir ./modules
+cd ./modules || exit 1
+touch __init__.py
+cd .. || exit 1
+mkdir ./lib
+cd ./lib || exit 1
+touch __init__.py
+cd .. || exit 1
+mkdir ./pytests
 echo "
 				$TITLE 0.1.0
 
@@ -81,6 +89,9 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." > LICENSE
 
+en=".py"
+echo "#!/usr/bin/env python3
+Copyright (c) $year Jan Magrot"  > "$TITLE$en"
 
 # git init
 git init
@@ -102,39 +113,40 @@ connectgithub () {
 }
 
 sleep1
-while true; do
-clear
-echo "
+while true
+do
+  clear
+  echo "
 
-Chcete napojit projekt na github.com? y/n
+  Chcete napojit projekt na github.com? y/n
 
-"
-read -r answer
+  "
+  read -r answer
 
-case $answer in
-y|Y)
-	echo "
-	Vytvořte na github.com nový repozitář bez README, License atd. a zadejte jeho URL:"
-	read -r url
-	connectgithub "$url" &&
-	break
-	;;
-n|N)
-	:
-	break
-	;;
-*)
-	echo "
+  case $answer in
+  y|Y)
+    echo "
+    Vytvořte na github.com nový repozitář bez README, License atd. a zadejte jeho URL:"
+    read -r url
+    connectgithub "$url" &&
+    break
+    ;;
+  n|N)
+    :
+    break
+    ;;
+  *)
+    echo "
 
-	Neplatný znak! Prosím znovu.
+    Neplatný znak! Prosím znovu.
 
-	"
-	sleep 1
-	;;
-esac
+    "
+    sleep 1
+    ;;
+  esac
 done
 
-
+chmod -R 755 ./*
 
 exit 0
 

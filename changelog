@@ -21,3 +21,6 @@ Syntax for changelog:
 --- 0.2.0 - init_py_project.sh repaired.
     Init_py_project.sh repaired.
 
+--- 1.0.0 - Rellease
+    Rellease. All project subdirectories are made.
+

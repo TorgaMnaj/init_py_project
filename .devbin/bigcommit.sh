@@ -1,15 +1,14 @@
 #!/bin/bash
 # This script is supposed to run from Makefile in parent directory.
 # Commit requires long and short description as well as version of commit number.
+# TODO: zahrnout pytest testy a pylint. Zkusit prospector, mypy, Pylama.
 if [ ! -d .git ]
 then
 	cd ..
 	if [ ! -d .git ]
 	then
 		echo "
-		
 		I cant find .git directory! Terminating.
-		
 		"
 		exit 1
 	fi
@@ -17,7 +16,6 @@ fi
 
 clear
 echo "
-
 
 Printing GIT STATUS:
 
@@ -28,7 +26,7 @@ git status
 github () {
 if [ -e .github ]
 then
-	git push origin master && echo "Pushed to github."
+	git push origin master && echo -e "\nPushed to github.\n"
 fi
 }
 
@@ -54,7 +52,7 @@ commit () {
 	do
 		shellcheck "$i"
 	done
-	)	
+	)
 	#
 	while true
 	do

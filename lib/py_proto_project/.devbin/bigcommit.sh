@@ -1,15 +1,14 @@
 #!/bin/bash
 # This script is supposed to run from Makefile in parent directory.
 # Commit requires long and short description as well as version of commit number.
+# TODO: zahrnout pytest testy a pylint. Zkusit prospector, mypy, Pylama.
 if [ ! -d .git ]
 then
 	cd ..
 	if [ ! -d .git ]
 	then
 		echo "
-		
 		I cant find .git directory! Terminating.
-		
 		"
 		exit 1
 	fi
@@ -17,7 +16,6 @@ fi
 
 clear
 echo "
-
 
 Printing GIT STATUS:
 
@@ -28,12 +26,52 @@ git status
 github () {
 if [ -e .github ]
 then
-	git push origin master && echo "Pushed to github."
+	git push origin master && echo -e "\nPushed to github.\n"
 fi
 }
 
 commit () {
+	# At first tests must pass.
 	clear
+	echo -e "\n\nTestuji:\n"
+	SHFILES=$(find . -name "*.sh")
+	for i in $SHFILES
+	do
+		chmod 755 "$i"
+	done
+	# Check for syntax errors, stdout to /dev/null:
+	(
+	for i in $SHFILES
+	do
+		bash -xn "$i"
+	done
+	) > /dev/null
+	# Finegrain check with spellcheck:
+	(
+	for i in $SHFILES
+	do
+		shellcheck "$i"
+	done
+	)
+	#
+	while true
+	do
+		echo -e "\nTesty provedeny. Chcete pokračovat s commitem? (y/n)"
+		read -r anw
+		case $anw in
+		y|Y)
+			break
+			;;
+		n|N)
+			exit 0
+			;;
+		*)
+			echo -e "\nNeplatný znak. Znovu.\n"
+			sleeps 1s
+			clear
+			;;
+		esac
+	done
 	echo "Enter changelog number: "
 	read -r number
 	echo "Enter short description: "
@@ -42,10 +80,6 @@ commit () {
 	"
 	read -r ldesc
 	head="$number - $sdesc"
-	# Testy:
-	./venv/bin/python3 -m pytest tests/ || echo "
-	Testy se nezdařily anebo neproběhli.
-	"
 	# Commit and push.
 	echo "--- $head" >> changelog && echo "    $ldesc" >> changelog && echo "" >> changelog && git add changelog
 	git commit -m "$head" -m "$ldesc" && github && \
