@@ -2,7 +2,7 @@
 VENV        := $(CURDIR)/venv
 PYTHON_BIN  ?= $(VENV)/bin/python3
 PIP_BIN     ?= $(VENV)/bin/pip
-APP			?= app.py
+APP			?= ./*.py
 
 help:  		## This help dialog.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -25,8 +25,10 @@ run:  		## Start development version of application
 bashtests:  	## Run bash scripts tests
 	bash ./.devbin/shtests.sh
 
-tests:  	## Run applications tests
+pytests:  	## Run applications python tests
+	chmod -R 755 ./*
 	$(PYTHON_BIN) -m pytest tests/
+	bash ./.devbin/pylint.sh
 
 commit:  	## Deploy, test, commit changes to git and push on github
 	bash ./.devbin/bigcommit.sh

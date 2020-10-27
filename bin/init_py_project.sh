@@ -91,7 +91,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." > LICENSE
 
 en=".py"
 echo "#!/usr/bin/env python3
-Copyright (c) $year Jan Magrot"  > "$TITLE$en"
+#Copyright (c) $year Jan Magrot"  > "$TITLE$en"
 
 # git init
 git init

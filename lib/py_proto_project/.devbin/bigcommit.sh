@@ -53,6 +53,13 @@ commit () {
 		shellcheck "$i"
 	done
 	)
+	# Pytests:
+	PYFILES=$(find . -name "*.py")
+  python3 -m pytest tests/
+  for i in $PYFILES
+  do
+    pylint "$i"
+  done
 	#
 	while true
 	do
